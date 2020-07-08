@@ -1,0 +1,251 @@
+<?php
+include('db/db.php');
+
+session_start();
+     $_SESSION['redirect']=$_SERVER['REQUEST_URI'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fashion Lifestyle-Trends</title>
+    <meta name="viewport" content="width=device-width,initial scale=1.0">
+    <link rel="stylesheet" href="fstyle.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" ></script>
+    <style>
+        .fashion-box {
+    margin-top: 0px; 
+}
+
+    </style>
+</head>
+
+<body>
+    <section class="header">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+            <a class="navbar-brand" href="#"><img src="fashnlog1.jpg"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">FASHION</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ftrend.php">TRENDING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="fjewel.php">JEWELLARY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sign.php">SIGN IN</a>
+                    </li>
+                </ul>
+                <ul class="right-menu ml-auto">
+                    <li><a href="add_cart.php"><i class="fa fa-shopping-cart"></i></a></li>
+                    <li><i class="fa fa-facebook"></i></li>
+                    <li><i class="fa fa-pinterest"></i></li>
+                    <li><i class="fa fa-instagram"></i></li>
+                    <li>
+                   <div class="input-group mb-3">
+                   <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                   <div class="input-group-append">
+                   <span class="input-group-text"><i class="fa fa-search"></i></span>
+                   </div>
+                   </div>
+                    </li>
+                    <li><?php
+                        if(isset($_SESSION['name']))
+                        {
+                            $sql="SELECT * from user where email='{$_SESSION['name']}'";
+                            $result=mysqli_query($conn,$sql);
+                            while($row=mysqli_fetch_array($result)){
+                          ?>  
+                          <h5><i class="fa fa-user-circle-o"></i>
+                        <?php echo $row['name']?></h5>
+                          <?php
+                        }
+                    }
+                    else{
+                    ?>
+
+                    <i class="fa fa-user-circle-o"></i>
+                <?php
+                }
+                ?>
+                    
+                    </li>
+                
+                </ul>
+            </div>
+        </nav>
+    </section>
+     <!--fashion trends-->
+    <section class="fashion-trends">
+        <div class="container">
+            <div class="fashion-box">
+                <div class="title-style text-center" >
+                <h1>FASHION TRENDS</h1>
+                </div>
+                <p class="text-center">
+                    Brackets has some unique features like Quick Edit, Live Preview and others that you may not find in other
+                    editors. Brackets is written in JavaScript, HTML and CSS. That means that most of you using Brackets
+                    have the skills necessary to modify and extend the editor. In fact, we use Brackets every day to build
+                    Brackets. To learn more about how to use the key features, read on. </p>
+            </div>
+            <div class="row">
+                <?php
+                    $sql="SELECT * FROM trends order by rand()";
+                    $result=mysqli_query($conn,$sql);
+                    if (mysqli_num_rows($result)>0)
+                    {
+                        foreach($result as $row)
+                    {
+                ?>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="<?php echo $row['img'];?>" >
+                        <button type="button" class="btn-buy"><a href="buy.php?id=<?php echo $row['id'];?>">BUY NOW</a></button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <?php
+                    }}
+                ?>
+                <!--<div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="cropp.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="tshirt1.jpg"  />
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="ethnic2.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>-->
+            </div>
+            <!--<div class="row">
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="offs.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="tshirt.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="dress.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="ethnic.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="denim1.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="dress2.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="tshirt3.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+                 <div class="col-md-3">
+                    <div class="trending-img">
+                        <img src="dress1.jpg"/>
+                        <button type="button" class="btn-buy">BUY NOW</button>
+                        <div class="overlay"></div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </section> 
+        <!-----------footer--------->
+    <section class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                   <div class="payment">
+                    <h5>PAYMENT GATEWAYS</h5>
+                    <img src="pay.png" class="img-fluid">
+                </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="insta-img">
+                        <h5>INSTAGRAM PICS</h5>
+                        <img src="dani%20(1).jpg"/>
+                        <img src="dani%20(2).jpg"/>
+                        <img src="cropp.jpg"/>
+                        <img src="face.jpg"/>
+                        <img src="indoor.jpg"/>
+                        <img src="red.jpg"/>
+                        <img src="scoop.jpg"/>
+                        <img src="side.jpg"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-download">
+                        <h5>DOWNLOAD MOBILE APP</h5>
+                     <img src="play.png" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="copyright">Designed with <i class="fa fa-heart"></i> by vostro 15 3000</p>
+                </div>
+                <div class="col-md-4">
+                   <div class="footer-icons">
+                    <i class="fa fa-facebook"></i>
+                    <i class="fa fa-instagram"></i>
+                    <i class="fa fa-twitter"></i>
+                    <i class="fa fa-youtube-play"></i>
+                    <i class="fa fa-linkedin"></i>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
